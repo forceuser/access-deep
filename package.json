@@ -6,7 +6,7 @@
   "engineStrict" : true,
   "engines": {
 	"node": ">= 6.0.0"
-  }
+  },
   "scripts": {
     "test": "xo && nyc ava test/**/*.js",
     "test:visual": "xo && nyc report --reporter=html ava test/**/*.js",
