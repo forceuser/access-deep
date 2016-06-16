@@ -1,6 +1,6 @@
 {
   "name": "access-deep",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Safe access to the nested object's properties with ES6 Proxy object",
   "main": "index.js",
   "engineStrict" : true,
