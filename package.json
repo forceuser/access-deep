@@ -14,7 +14,8 @@
       "no-var": 1,
       "prefer-const": 1,
       "no-implicit-coercion": 0,
-      "prefer-template": 0
+      "prefer-template": 0,
+      "babel/object-shorthand": 0
     }
   },
   "repository": {
