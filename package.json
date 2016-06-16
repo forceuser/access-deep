@@ -1,0 +1,47 @@
+{
+  "name": "access-deep",
+  "version": "1.0.0",
+  "description": "Access nested object properties with Proxy object",
+  "main": "index.js",
+  "scripts": {
+    "test": "xo && nyc ava test/**/*.js",
+    "test:visual": "xo && nyc report --reporter=html ava test/**/*.js",
+    "doc": "documentation index.js -f md | install -D /dev/stdin docs/index.md"
+  },
+  "xo": {
+    "esnext": true,
+    "rules": {
+      "no-var": 1,
+      "prefer-const": 1,
+      "no-implicit-coercion": 0,
+      "prefer-template": 0
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forceuser/access-deep.git"
+  },
+  "keywords": [
+    "safe access",
+    "nested properties",
+    "Proxy object",
+    "__get",
+    "__set"
+  ],
+  "author": "forceuser",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/forceuser/access-deep/issues"
+  },
+  "homepage": "https://github.com/forceuser/access-deep#readme",
+  "devDependencies": {
+    "ava": "^0.15.2",
+    "coveralls": "^2.11.8",
+    "documentation": "^3.0.4",
+    "nyc": "^6.6.1",
+    "xo": "^0.16.0"
+  },
+  "dependencies": {
+
+  }
+}

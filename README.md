@@ -1,3 +1,3 @@
 # access-deep
-Access nested object properties with Proxy object
+Safe access nested object properties with ES6 Proxy object
  
