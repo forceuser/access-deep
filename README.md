@@ -21,7 +21,7 @@ var accessDeep = require('access-deep');
 var obj = {};
 var accessor = accessDeep(obj);
 
-accessor.foo.bar.baz = 'quux';
+accessor.foo.bar.baz = 'quux'; // nested objects are automatically created
 console.log(JSON.stringify(obj)); // {"foo":{"bar":{"baz":"quux"}}}
 
 ```
