@@ -1,8 +1,12 @@
 {
   "name": "access-deep",
   "version": "1.0.0",
-  "description": "Access nested object properties with Proxy object",
+  "description": "Safe access to the nested object's properties with ES6 Proxy object",
   "main": "index.js",
+  "engineStrict" : true,
+  "engines": {
+	"node": ">= 6.0.0"
+  }
   "scripts": {
     "test": "xo && nyc ava test/**/*.js",
     "test:visual": "xo && nyc report --reporter=html ava test/**/*.js",
