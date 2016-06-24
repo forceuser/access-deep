@@ -1,97 +1,91 @@
 module.exports = accessDeep;
 
-function surrogate() {}
+function surrogate () {}
 
-function formatPath(path, source) {
-	var res = '';
-	var i = 0;
-	var p;
-	var step = source;
-	while (i < path.length) {
-		p = path[i];
-		res += ((!step && isNumeric(p.prop)) || Array.isArray(step) || (typeof p.prop === 'symbol')) ? '[' + p.prop.toString() + ']' : (res ? '.' : '') + p.prop.toString();
-		step = step && step[p.prop];
-		i++;
-	}
-	return res;
-}
-
-function isObject(obj) {
+function isObject (obj) {
 	return obj === Object(obj);
 }
 
-function isNumeric(val) {
+function isNumeric (val) {
 	return !isNaN(parseFloat(val)) && isFinite(val);
 }
 
-accessDeep.formatPath = formatPath;
+function isSet (val) {
+	return typeof val !== 'undefined' && val !== null;
+}
+
 accessDeep.surrogate = surrogate;
 
-function accessDeep(source) {
-	var rootAccessor = accessDeepSub(source, []);
+function accessDeep (source) {
+	const rootAccessor = accessDeepSub(source, []);
 	return rootAccessor;
 
-	function accessDeepSub(obj, path) {
-		var accessor;
-		accessor = new Proxy(obj, {
-			get: function (obj, prop) {
-				var val = source;
+	function formatPath (path) {
+		let res = '';
+		let i = 0;
+		let p;
+		let step = source;
+		while (i < path.length) {
+			p = path[i];
+			res += ((!step && isNumeric(p.prop)) || Array.isArray(step) || (typeof p.prop === 'symbol')) ? '[' + p.prop.toString() + ']' : (res ? '.' : '') + p.prop.toString();
+			step = step && step[p.prop];
+			i++;
+		}
+		return res;
+	}
 
-				for (var i = 0; i < path.length; i++) {
-					try {
-						val = val[path[i].prop];
-					} catch (err) {
-						val = undefined;
-					}
+	function accessDeepSub (obj, path) {
+		function getVal () {
+			let val = source;
+
+			for (let i = 0; i < path.length; i++) {
+				try {
+					val = val[path[i].prop];
+				} catch (err) {
+					val = undefined;
+				}
+			}
+			return val;
+		}
+
+		const accessor = new Proxy(obj, {
+			get (obj, prop) {
+				const context = path[path.length - 1];
+
+				switch (prop) {
+					case 'valueOf':
+					case 'inspect':
+					case Symbol.toPrimitive:
+						return function () {
+							const val = context.accessor[context.prop].$val;
+							return isSet(val) ? val.valueOf() : val;
+						};
+					case 'toString':
+						return function () {
+							const val = context.accessor[context.prop].$val;
+							return isSet(val) ? val.toString() : (val + '');
+						};
+					case 'toJSON':
+						return getVal;
+					case '$path':
+						return formatPath(path);
+					case '$val':
+						return getVal();
+					default:
 				}
 
-				var $path;
-				var context = path[path.length - 1];
-
-				if (prop === 'valueOf' || prop === Symbol.toPrimitive || prop === 'inspect') {
-					return function () {
-						var val = context.accessor[context.prop].$val;
-						if (typeof val !== 'undefined' && val !== null) {
-							return val.valueOf();
-						}
-						return val;
-					};
-				}
-				if (prop === 'toJSON') {
-					return function () {
-						return val;
-					};
-				}
-
-				if (prop === 'toString') {
-					return function () {
-						var val = context.accessor[context.prop].$val;
-						if (typeof val !== 'undefined' && val !== null) {
-							return val.toString();
-						}
-						return val + '';
-					};
-				}
-
-				if (prop === '$path') {
-					return formatPath(path, source);
-				}
-
-				if (prop === '$val') {
-					return val;
-				}
-
-				$path = Array.apply(null, path); // clone array
+				const $path = Array.apply(null, path); // clone array
 				$path.push({
-					prop: prop,
-					accessor: accessor
+					prop,
+					accessor
 				});
+
 				return accessDeepSub(surrogate, $path);
 			},
-			set: function (obj, prop, val) {
-				var p;
-				var step = source;
-				var i = 0;
+			set (obj, prop, val) {
+				let p;
+				let step = source;
+				let i = 0;
 
 				while (i < path.length) {
 					p = path[i];
@@ -105,56 +99,44 @@ function accessDeep(source) {
 				step[prop] = val;
 				return true;
 			},
-			has: function (obj, prop) {
-				var val = source;
-
-				for (var i = 0; i < path.length; i++) {
-					try {
-						val = val[path[i].prop];
-					} catch (err) {
-						val = undefined;
-					}
-				}
-
+			has (obj, prop) {
+				const val = getVal();
 				return isObject(val) && prop in val;
 			},
-			apply: function (obj, self, args) {
-				var call;
-				var context;
+			apply (obj, self, args) {
+				const call = path[path.length - 1];
+				const context = path[path.length - 2];
 
-				call = path[path.length - 1];
-				context = path[path.length - 2];
+				switch (call.prop) {
+					case '$up':
+						return path[path.length - Math.max(args[0] || 1, 1) - 1].accessor;
+					case '$exists':
+						return context.prop in context.accessor;
+					case '$set':
+						if (typeof args[0] === 'function' && args[1]) {
+							context.accessor[context.prop] = args[0](call.accessor);
+						} else {
+							context.accessor[context.prop] = args[0];
+						}
 
-				if (call.prop === '$up') {
-					return path[path.length - Math.max(args[0] || 1, 1) - 1].accessor;
-				}
-				if (call.prop === '$exists') {
-					return context.prop in context.accessor;
-				}
-				if (call.prop === '$set') {
-					if (typeof args[0] === 'function' && args[1]) {
-						context.accessor[context.prop] = args[0](call.accessor);
-					} else {
-						context.accessor[context.prop] = args[0];
-					}
-					return context.accessor[context.prop];
-				}
-				if (call.prop === '$get') {
-					if (typeof args[0] === 'function' && args[1]) {
-						return args[0](call.accessor);
-					}
+						return context.accessor[context.prop];
+					case '$get':
+						if (typeof args[0] === 'function' && args[1]) {
+							return args[0](call.accessor);
+						}
 
-					if (!(context.prop in context.accessor)) {
-						return args[0];
-					}
+						if (!(context.prop in context.accessor)) {
+							return args[0];
+						}
 
-					return call.accessor.$val;
+						return call.accessor.$val;
+					default:
 				}
 
-				var target = call.accessor[call.prop].$val;
+				const target = call.accessor[call.prop].$val;
 
 				if (typeof target !== 'function') {
-					console.warn('Path "' + formatPath(path, source) + '" cannot be called as a function!');
+					console.warn('Path "' + formatPath(path) + '" cannot be called as a function!');
 					return;
 				}
 

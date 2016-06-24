@@ -24,6 +24,11 @@ var accessor = accessDeep(obj);
 accessor.foo.bar.baz = 'quux'; // nested objects are automatically created
 console.log(JSON.stringify(obj)); // {"foo":{"bar":{"baz":"quux"}}}
 
+accessor.foo.list[2] = 12;
+console.log(JSON.stringify(obj)); // {"foo":{"bar":{"baz":"quux"},"list":[null,12]}}
+
+console.log(accessor.foo.list[2].$val); // 12
+
 ```
 
 ## Compatibility

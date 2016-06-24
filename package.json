@@ -1,11 +1,11 @@
 {
   "name": "access-deep",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Safe access to the nested object's properties with ES6 Proxy object",
   "main": "index.js",
-  "engineStrict" : true,
+  "engineStrict": true,
   "engines": {
-	"node": ">= 6.0.0"
+    "node": ">= 6.0.0"
   },
   "scripts": {
     "test": "xo && nyc ava test/**/*.js",
@@ -19,7 +19,11 @@
       "prefer-const": 1,
       "no-implicit-coercion": 0,
       "prefer-template": 0,
-      "babel/object-shorthand": 0
+      "babel/object-shorthand": 1,
+      "space-before-function-paren": [
+        2,
+        "always"
+      ]
     }
   },
   "repository": {
@@ -46,7 +50,5 @@
     "nyc": "^6.6.1",
     "xo": "^0.16.0"
   },
-  "dependencies": {
-
-  }
+  "dependencies": {}
 }

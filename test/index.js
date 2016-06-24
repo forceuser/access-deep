@@ -2,8 +2,9 @@ const test = require('ava');
 const accessDeep = require('../index');
 
 test('general test', t => {
-	var o = {};
-	var p = accessDeep(o);
+	const o = {};
+	const p = accessDeep(o);
+
 	p.a.b.c = 12;
 	t.is(p.a.b.c.$val, 12);
 	t.is(JSON.stringify(o), '{"a":{"b":{"c":12}}}');
@@ -12,30 +13,34 @@ test('general test', t => {
 });
 
 test('array assignment', t => {
-	var o = {};
-	var p = accessDeep(o);
+	const o = {};
+	const p = accessDeep(o);
+
 	p.a.b[1].c = 12;
 	t.is(JSON.stringify(o), '{"a":{"b":[null,{"c":12}]}}');
 });
 
 test('$val parameter', t => {
-	var o = {};
-	var p = accessDeep(o);
+	const o = {};
+	const p = accessDeep(o);
+
 	p.a.b.c = 12;
 	t.is(p.a.b.c.$val, 12);
 	t.is(p.a.b.x.$val, undefined);
 });
 
 test('$path parameter', t => {
-	var o = {};
-	var p = accessDeep(o);
+	const o = {};
+	const p = accessDeep(o);
+
 	t.is(p.a.b.c.$path, 'a.b.c');
 	t.is(p.a.b.c[1][2].dasd.$path, 'a.b.c[1][2].dasd');
 });
 
 test('valueOf', t => {
-	var o = {};
-	var p = accessDeep(o);
+	const o = {};
+	const p = accessDeep(o);
+
 	p.a.b.c = 12;
 	t.is(+p.a.b.c, 12, 'type conversion');
 	t.is(p.a.b.c.valueOf(), 12, 'direct valueOf()');
@@ -43,8 +48,9 @@ test('valueOf', t => {
 });
 
 test('toString', t => {
-	var o = {};
-	var p = accessDeep(o);
+	const o = {};
+	const p = accessDeep(o);
+
 	p.a.b.c = 12;
 	t.is(p.a.b.c + '', '12');
 	t.is(p.a.b.c.toString(), '12');
@@ -53,11 +59,13 @@ test('toString', t => {
 });
 
 test('$get method', t => {
-	var o = {};
-	var p = accessDeep(o);
-	function callback(accessor) {
+	const o = {};
+	const p = accessDeep(o);
+
+	function callback (accessor) {
 		return accessor.$val ? accessor.$val + 1 : 'none';
 	}
+
 	// undefined
 	t.is(p.a.b.c.$get(), undefined);
 	t.is(p.a.b.c.$get('test'), 'test');
@@ -72,11 +80,13 @@ test('$get method', t => {
 });
 
 test('$set method', t => {
-	var o = {};
-	var p = accessDeep(o);
-	function callback(accessor) {
+	const o = {};
+	const p = accessDeep(o);
+
+	function callback (accessor) {
 		return accessor.$val + 1;
 	}
+
 	t.is(p.a.b.c.$set(12).$val, 12);
 	t.is(p.foo.bar.$set(callback).$val, callback);
 	p.foo.bar = 12;
@@ -84,16 +94,18 @@ test('$set method', t => {
 });
 
 test('$up method', t => {
-	var o = {};
-	var p = accessDeep(o);
+	const o = {};
+	const p = accessDeep(o);
+
 	p.a.b.c = 12;
 	t.is(JSON.stringify(p.a.b.c.$up()), '{"c":12}');
 	t.is(JSON.stringify(p.a.b.c.$up(2)), '{"b":{"c":12}}');
 });
 
 test('$exists method', t => {
-	var o = {};
-	var p = accessDeep(o);
+	const o = {};
+	const p = accessDeep(o);
+
 	p.a.b.c = 12;
 	t.true(p.a.b.c.$exists());
 	t.false(p.a.b.some.$exists());
@@ -101,8 +113,9 @@ test('$exists method', t => {
 });
 
 test('has ("in" operator)', t => {
-	var o = {};
-	var p = accessDeep(o);
+	const o = {};
+	const p = accessDeep(o);
+
 	p.a.b.c = 12;
 	t.true('c' in p.a.b);
 	t.false('some' in p.a.b);
@@ -110,8 +123,9 @@ test('has ("in" operator)', t => {
 });
 
 test('apply (function call)', t => {
-	var o = {};
-	var p = accessDeep(o);
+	const o = {};
+	const p = accessDeep(o);
+
 	p.a.f = function () {
 		return 12;
 	};
