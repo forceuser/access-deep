@@ -11,7 +11,7 @@
     "test": "xo && nyc ava test/**/*.js",
     "test:visual": "xo && nyc report --reporter=html ava test/**/*.js",
     "doc": "documentation index.js -f md | install -D /dev/stdin docs/index.md",
-    "coverage": "rm .coverage.lcov && ./node_modules/.bin/nyc report --reporter=text-lcov | tee ./node_modules/.bin/coveralls > .coverage.lcov && ./node_modules/.bin/codecov | grep errors"
+    "coverage": "((rm -f .coverage.lcov || true) && ./node_modules/.bin/nyc report --reporter=text-lcov | tee >(./node_modules/.bin/coveralls) .coverage.lcov) && ./node_modules/.bin/codecov"
   },
   "xo": {
     "esnext": true,
