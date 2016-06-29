@@ -12,3 +12,4 @@ before_install:
   
 after_success:
   - './node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls'
+  - 'bash <(curl -s https://codecov.io/bash)'
