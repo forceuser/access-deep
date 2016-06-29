@@ -58,26 +58,26 @@ test('toString', t => {
 	t.is(p.a.b.x.toString(), 'undefined');
 });
 
-// test('$get method', t => {
-// 	const o = {};
-// 	const p = accessDeep(o);
+test('$get method', t => {
+	const o = {};
+	const p = accessDeep(o);
 
-// 	function callback (accessor) {
-// 		return accessor.$val ? accessor.$val + 1 : 'none';
-// 	}
+	function callback (accessor) {
+		return accessor.$val ? accessor.$val + 1 : 'none';
+	}
 
-// 	// undefined
-// 	t.is(p.a.b.c.$get(), undefined);
-// 	t.is(p.a.b.c.$get('test'), 'test');
-// 	t.is(p.a.b.c.$get(callback, true), 'none');
-// 	t.is(p.a.b.c.$get(callback), callback);
-// 	// value
-// 	p.a.b.c = 12;
-// 	t.is(p.a.b.c.$get(), 12);
-// 	t.is(p.a.b.c.$get('test'), 12);
-// 	t.is(p.a.b.c.$get(callback, true), 13);
-// 	t.is(p.a.b.c.$get(callback), 12);
-// });
+	// undefined
+	t.is(p.a.b.c.$get(), undefined);
+	t.is(p.a.b.c.$get('test'), 'test');
+	t.is(p.a.b.c.$get(callback, true), 'none');
+	t.is(p.a.b.c.$get(callback), callback);
+	// value
+	p.a.b.c = 12;
+	t.is(p.a.b.c.$get(), 12);
+	t.is(p.a.b.c.$get('test'), 12);
+	t.is(p.a.b.c.$get(callback, true), 13);
+	t.is(p.a.b.c.$get(callback), 12);
+});
 
 test('$set method', t => {
 	const o = {};
