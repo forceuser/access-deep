@@ -93,14 +93,14 @@ test('$set method', t => {
 	t.is(p.foo.bar.$set(callback, true).$val, 13);
 });
 
-test('$up method', t => {
-	const o = {};
-	const p = accessDeep(o);
+// test('$up method', t => {
+// 	const o = {};
+// 	const p = accessDeep(o);
 
-	p.a.b.c = 12;
-	t.is(JSON.stringify(p.a.b.c.$up()), '{"c":12}');
-	t.is(JSON.stringify(p.a.b.c.$up(2)), '{"b":{"c":12}}');
-});
+// 	p.a.b.c = 12;
+// 	t.is(JSON.stringify(p.a.b.c.$up()), '{"c":12}');
+// 	t.is(JSON.stringify(p.a.b.c.$up(2)), '{"b":{"c":12}}');
+// });
 
 test('$exists method', t => {
 	const o = {};
