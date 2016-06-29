@@ -1,2 +1,5 @@
 #!/bin/bash
-rm -f .coverage.lcov || true && ./node_modules/.bin/nyc report --reporter=text-lcov | tee >(./node_modules/.bin/coveralls) .coverage.lcov | ./node_modules/.bin/codecov > /dev/null
+rm -f .coverage.lcov
+./node_modules/.bin/nyc report --reporter=text-lcov > .coverage.lcov
+cat .coverage.lcov | ./node_modules/.bin/coveralls
+./node_modules/.bin/codecov
