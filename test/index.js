@@ -76,7 +76,7 @@ test('$get method', t => {
 	t.is(p.a.b.c.$get(), 12);
 	t.is(p.a.b.c.$get('test'), 12);
 	t.is(p.a.b.c.$get(callback, true), 13);
-	t.is(p.a.b.c.$get(callback), 12);
+	t.is(p.a.b.c.$get(callback), 1211);
 });
 
 test('$set method', t => {
