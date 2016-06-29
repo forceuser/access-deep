@@ -2,7 +2,7 @@
 Safe access to the nested object's properties with ES6 Proxy object
 
 <a href="https://travis-ci.org/forceuser/access-deep" target="_blank">![Build Status](https://travis-ci.org/forceuser/access-deep.svg?branch=master)</a>
-<a href="https://codecov.io/gh/forceuser/access-deep" target="_blank">![Coverage Status](https://codecov.io/gh/forceuser/access-deep/branch/master/graph/badge.svg)</a>
+<a href="https://codecov.io/gh/forceuser/access-deep" target="_blank">![Coverage Status](https://img.shields.io/codecov/c/github/forceuser/access-deep/master.svg)</a>
 <a href="https://www.npmjs.com/package/access-deep" target="_blank">![dependency Status](https://img.shields.io/npm/v/access-deep.svg)</a>
 <a href="https://david-dm.org/forceuser/access-deep" target="_blank">![dependency Status](https://david-dm.org/forceuser/access-deep.svg)</a>
 <a href="https://david-dm.org/forceuser/access-deep#info=devDependencies" target="_blank">![devDependency Status](https://david-dm.org/forceuser/access-deep/dev-status.svg)</a>
