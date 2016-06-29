@@ -11,4 +11,4 @@ before_install:
   - 'npm i -g npm@latest'
 
 after_success:
-  - './node_modules/.bin/nyc report --reporter=text-lcov | tee >(./node_modules/.bin/coveralls) >(./node_modules/.bin/codecov) | grep errors'
+  - 'npm run coverage'
