@@ -102,15 +102,15 @@ test('$up method', t => {
 	t.is(JSON.stringify(p.a.b.c.$up(2)), '{"b":{"c":12}}');
 });
 
-// test('$exists method', t => {
-// 	const o = {};
-// 	const p = accessDeep(o);
+test('$exists method', t => {
+	const o = {};
+	const p = accessDeep(o);
 
-// 	p.a.b.c = 12;
-// 	t.true(p.a.b.c.$exists());
-// 	t.false(p.a.b.some.$exists());
-// 	t.false(p.foo.bar.some.$exists());
-// });
+	p.a.b.c = 12;
+	t.true(p.a.b.c.$exists());
+	t.false(p.a.b.some.$exists());
+	t.false(p.foo.bar.some.$exists());
+});
 
 test('has ("in" operator)', t => {
 	const o = {};
